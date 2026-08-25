@@ -52,11 +52,93 @@ Execute the program and analyze the generated visualizations to identify meaning
 
 ## PROGRAM:
 
-*(Paste the Python code for COVID-19 Dataset Analysis and Visualization here.)*
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load dataset
+data = pd.read_csv("covid_case.csv")
+
+# Display basic information
+print("First 5 rows:")
+print(data.head())
+
+print("\nDataset Shape:")
+print(data.shape)
+
+print("\nColumn Names:")
+print(data.columns)
+
+# Check missing values
+print("\nMissing Values:")
+print(data.isnull().sum())
+
+# Remove missing values
+data = data.dropna()
+
+# Convert Date column to datetime
+data['Date'] = pd.to_datetime(data['Date'])
+
+# Total number of records
+print("\nTotal Records:", len(data))
+
+# Statistical summary
+print("\nStatistical Summary:")
+print(data.describe())
+
+# Line Graph: Global confirmed cases over time
+global_cases = data.groupby('Date')['Confirmed'].sum()
+
+plt.figure()
+plt.plot(global_cases.index, global_cases.values)
+plt.title("Global Confirmed COVID-19 Cases Over Time")
+plt.xlabel("Date")
+plt.ylabel("Confirmed Cases")
+plt.show()
+
+# Bar Chart: Top 10 countries by confirmed cases
+top10 = data.groupby('Country')['Confirmed'].sum().sort_values(ascending=False).head(10)
+
+plt.figure()
+top10.plot(kind='bar')
+plt.title("Top 10 Countries by Confirmed Cases")
+plt.xlabel("Country")
+plt.ylabel("Confirmed Cases")
+plt.show()
+
+# Pie Chart: Top 5 affected countries
+top5 = data.groupby('Country')['Confirmed'].sum().sort_values(ascending=False).head(5)
+
+plt.figure()
+plt.pie(top5, labels=top5.index, autopct='%1.1f%%')
+plt.title("Top 5 Countries Case Distribution")
+plt.show()
+
+# Scatter Plot: Confirmed vs Deaths
+plt.figure()
+plt.scatter(data['Confirmed'], data['Deaths'])
+plt.title("Confirmed Cases vs Deaths")
+plt.xlabel("Confirmed Cases")
+plt.ylabel("Deaths")
+plt.show()
+
+# Histogram: Distribution of active cases
+plt.figure()
+plt.hist(data['Active'], bins=20)
+plt.title("Distribution of Active Cases")
+plt.xlabel("Active Cases")
+plt.ylabel("Frequency")
+plt.show()
+
 
 ## OUTPUT:
 
-*(Paste the execution output showing the dataset information, statistical summary, and generated Line Graph, Bar Chart, Pie Chart, Scatter Plot, and Histogram.)*
+<img width="1901" height="977" alt="Screenshot 2026-08-25 093330" src="https://github.com/user-attachments/assets/4c04b609-d2f8-4d1c-8ea6-3943ca8c811d" />
+<img width="932" height="426" alt="Screenshot 2026-08-25 093402" src="https://github.com/user-attachments/assets/3cb2371b-48bb-4d7c-8905-1ab07d0ebde5" />
+<img width="696" height="321" alt="Screenshot 2026-08-25 093430" src="https://github.com/user-attachments/assets/0714d88f-8f00-4333-9273-30e61921427b" />
+<img width="851" height="388" alt="Screenshot 2026-08-25 093458" src="https://github.com/user-attachments/assets/ee732d8f-b7a9-4630-a577-743531b24dd3" />
+<img width="912" height="390" alt="Screenshot 2026-08-25 093521" src="https://github.com/user-attachments/assets/dd0dab97-6837-4735-9c34-e10ec72ce0b3" />
+
+
 
 ## RESULT:
 
